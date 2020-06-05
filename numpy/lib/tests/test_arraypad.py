@@ -487,10 +487,6 @@ class TestStatistic:
     def test_zero_stat_length_invalid(self, mode):
         match = "stat_length of 0 yields no value for padding"
         with pytest.raises(ValueError, match=match):
-            np.pad([1., 2.], 0, mode, stat_length=0)
-        with pytest.raises(ValueError, match=match):
-            np.pad([1., 2.], 0, mode, stat_length=(1, 0))
-        with pytest.raises(ValueError, match=match):
             np.pad([1., 2.], 1, mode, stat_length=0)
         with pytest.raises(ValueError, match=match):
             np.pad([1., 2.], 1, mode, stat_length=(1, 0))
@@ -1307,7 +1303,8 @@ class TestPadWidth:
     @pytest.mark.parametrize("mode", _all_modes.keys())
     def test_zero_pad_width(self, pad_width, mode):
         arr = np.arange(30).reshape(6, 5)
-        assert_array_equal(arr, np.pad(arr, pad_width, mode=mode))
+        pad = np.pad(arr, pad_width, mode=mode)
+        assert arr is pad
 
 
 @pytest.mark.parametrize("mode", _all_modes.keys())
